@@ -83,4 +83,7 @@ public class LoginPageHelper extends PageBase {
         enterValueToTheField(passwordField,password);
         loginButton.click();
     }
+    public String getLoginError(){
+        return loginErrorWithAccount.getText();
+    }
 }

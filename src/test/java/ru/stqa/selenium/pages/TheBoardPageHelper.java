@@ -77,9 +77,10 @@ public class TheBoardPageHelper extends PageBase {
         waitUntilElementIsClickable(archiveThisList,10);
     }
 
-    public void addAnotherList(){
+    public void addAnotherList(String listName){
         addAnotherList.click();
-        enterValueToTheField(enterListTitle,"New List Anna34");
+       // enterValueToTheField(enterListTitle,"New List Anna34");
+        enterValueToTheField(enterListTitle, listName);
         addListButton.click();
         waitUntilElementIsClickable(addListButton,10);
         cancelAddList.click();
@@ -99,14 +100,15 @@ public class TheBoardPageHelper extends PageBase {
         waitUntilElementIsClickable(cancelAddCard,10);
         cancelAddCard.click();
     }
-    public void LastEmptyList() {
+    public void LastEmptyList(String cardName) {
         waitUntilAllElementsAreVisible(addAnotherList,15);
         int sizeLstAddCardButtons = listAddCardButton.size();
         WebElement lastAddCardButton = listAddCardButton.get(sizeLstAddCardButtons - 1);
 
         //----Add a first card for any new list
         lastAddCardButton.click();
-        enterTitleForThisCard.sendKeys("text");
+       // enterTitleForThisCard.sendKeys("text");
+        enterTitleForThisCard.sendKeys(cardName);
         addCardButton.click();
     }
 

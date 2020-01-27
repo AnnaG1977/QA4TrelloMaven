@@ -10,6 +10,7 @@ import ru.stqa.selenium.pages.BoardsPageHelper;
 import ru.stqa.selenium.pages.HomePageHelper;
 import ru.stqa.selenium.pages.LoginPageHelper;
 import ru.stqa.selenium.pages.TheBoardPageHelper;
+import ru.stqa.selenium.util.DataProviders;
 
 
 import java.util.List;
@@ -35,49 +36,49 @@ public class CurrentBoardPageTests extends TestBase {
         boardPage.waitUntilPageIsLoaded();
     }
 
-   @Test
-    public void createNewList()  {
+   @Test(dataProviderClass = DataProviders.class, dataProvider = "dataProviderText")
+    public void createNewList(String listName)  {
        boardPage.openBoard(BOARD);
        theBoardPage.waitUntilPageIsLoaded();
        int q = theBoardPage.quantityOfLists(); // quantity before added
-       theBoardPage.addAnotherList();
+       theBoardPage.addAnotherList(listName);
        int qEnd = theBoardPage.quantityOfLists(); // quantity after added
        Assert.assertEquals(q+1,qEnd);
     }
-    @Test
-    public void  addFirstCardInNewList ()  {
+    @Test(dataProviderClass = DataProviders.class, dataProvider = "dataProviderText")
+    public void  addFirstCardInNewList (String listName, String cardName)  {
 
         boardPage.openBoard("QA4Haifa");
         theBoardPage.waitUntilPageIsLoaded();
         int quantityAddAnotherButtonBeg = theBoardPage.quantityOfLists();
-        theBoardPage.addAnotherList();
+        theBoardPage.addAnotherList(listName);
         theBoardPage.waitUntilAdAnotherCardButtonIsVisible();
-        theBoardPage.LastEmptyList();
+        theBoardPage.LastEmptyList(cardName);
         theBoardPage.waitUntilAdAnotherCardButtonIsVisible();
         int quantityAddAnotherButtonEnd = theBoardPage.quantityOfLists();
         Assert.assertEquals(quantityAddAnotherButtonBeg + 1, quantityAddAnotherButtonEnd);
     }
 
-    @Test
-    public void deleteList() {
+    @Test(dataProviderClass = DataProviders.class, dataProvider = "dataProviderText")
+    public void deleteList(String listName) {
         boardPage.openBoard("New");
         theBoardPage.waitUntilPageIsLoaded();
         int counter =0;
         counter = theBoardPage.quantityOfLists();
         System.out.println("before  lists " + counter);
         if (counter==0){
-            theBoardPage.addAnotherList();
+            theBoardPage.addAnotherList(listName);
         }
         theBoardPage.deleteList();
         counter = theBoardPage.quantityOfLists();
         System.out.println("after  lists " + counter);
     }
-    @Test
-    public void CopyList(){
+    @Test(dataProviderClass = DataProviders.class, dataProvider = "dataProviderText")
+    public void CopyList(String listName){
         boardPage.openBoard("New");
         theBoardPage.waitUntilPageIsLoaded();
         int q = theBoardPage.quantityOfLists();
-        if (q==0){ theBoardPage.addAnotherList(); }
+        if (q==0){ theBoardPage.addAnotherList(listName); }
         q = theBoardPage.quantityOfLists();
         theBoardPage.copyList();
         int qEnd = theBoardPage.quantityOfLists();
