@@ -32,10 +32,14 @@ public class LoginPageHelper extends PageBase {
         super(driver);
     }
     public void waitUntilPageIsLoaded() {
+        log.info("Start method waitUntilPageIsLoaded ");
+        log.info("Wait until login button is clickable");
         waitUntilElementIsClickable(loginButton, 30);
     }
 
     public void enterAtlLogin(String login) {
+        log.info("Start method enterAtlLogin");
+        log.info("Enter login");
         enterValueToTheField(userField,login);
     }
 
@@ -55,9 +59,14 @@ public class LoginPageHelper extends PageBase {
     }
 
     public void loginToTrelloAsAtlassian(String login, String password){
+        log.info("Start method loginToTrelloAsAtlassian " + login + "/" + password);
+        log.info("Enter login  - " + login);
         this.enterAtlLogin(login);
+        log.info("Click  on 'Login with Atlassian' button ");
         this.clickLoginWithAtlassian();
+        log.info("Click on 'Continue' button");
         this.clickContinueButton();
+        log.info("Enter password - " + password);
         this.enterAtlPasswordAndLogin(password);
     }
 
@@ -70,6 +79,8 @@ public class LoginPageHelper extends PageBase {
                         "Do you need help logging in?");
     }
     public void waitLoginErrorWithAccount(){
+        log.info("Start method waitLoginErrorWithAccount");
+        log.info("Wait until error message is visible");
         waitUntilElementIsVisible(loginErrorWithAccount,20);
     }
     public boolean verifyIfLoginErrorWithAccount(){
@@ -78,12 +89,19 @@ public class LoginPageHelper extends PageBase {
     }
 
     public void enterAtlPassword(String password) {
+        log.info("Start method enterAtlPassword");
+        log.info("Wait until password field is clickable");
         waitUntilElementIsClickable(passwordField,10);
+        log.info("Wait until button of login is clickable");
         waitUntilElementIsClickable(LoginButtonIfLoginNegative, 10);
+        log.info("Enter password");
         enterValueToTheField(passwordField,password);
+        log.info("Click on 'Login' button");
         loginButton.click();
     }
     public String getLoginError(){
+        log.info("Start method 'getLoginError'");
+        log.info("Get error text " + loginErrorWithAccount.getText());
         return loginErrorWithAccount.getText();
     }
 }

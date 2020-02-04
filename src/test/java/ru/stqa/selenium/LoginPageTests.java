@@ -28,12 +28,20 @@ public class LoginPageTests extends TestBase {
     }
     @Test
     public void loginToTrelloPositive()  {
+        log.startTestCase("loginToTrelloPositive");
+        log.info("Open login page");
         homePage.openLoginPage();
+        log.info("Wait until page is loaded");
         loginPage.waitUntilPageIsLoaded();
+        log.info("Enter login/password as Atlassian - "  + LOGIN + "  /  " + PASSWORD);
         loginPage.loginToTrelloAsAtlassian(LOGIN,PASSWORD);
+        log.info("Wait until boards page is loaded");
         boardPage.waitUntilPageIsLoaded();
+        log.info("Verify: 'Boards icon is displayed' ");
         Assert.assertTrue(boardPage.verifyIfBoardsIconIsDisplayed());
+        log.info("Verify: personal boards header is displayed ");
         Assert.assertTrue(boardPage.verifyIfPersonalBoardsHeaderIsDisplayed());
+        log.endTestCase();
     }
     @Test(dataProviderClass =DataProviders.class, dataProvider = "dataProviderPasswordIncorrect")
     public void loginIncorrectPassNegative(String login, String psw)  {
@@ -46,16 +54,24 @@ public class LoginPageTests extends TestBase {
     }
     @Test (dataProviderClass = DataProviders.class, dataProvider = "dataProviderFirst")
     public void loginIncorrectLoginNegative(String login, String psw, String message)  {
+        log.startTestCase("loginIncorrectLoginNegative");
+        log.info("---------login: " + login +" / " + "password: " + psw + "-------------");
+        log.info("---------message: " + message + "---------------");
+        log.info("Open login page");
         homePage.openLoginPage();
+        log.info("Wait until page is loaded");
         loginPage.waitUntilPageIsLoaded();
         //loginPage.enterAtlLogin("aqqqqq");
        // loginPage.enterAtlPassword(PASSWORD);
+        log.info("Enter login");
         loginPage.enterAtlLogin(login);
+        log.info("Enter password");
         loginPage.enterAtlPassword(psw);
-
+        log.info("login: " + login +" / " + "password: " + psw );
+        log.info("Wait login error with account");
         loginPage.waitLoginErrorWithAccount();
        // Assert.assertTrue(loginPage.verifyIfLoginErrorWithAccount());
-
+        log.info("Verify that error message '" + message + " '");
         Assert.assertEquals(message,loginPage.getLoginError());
     }
 

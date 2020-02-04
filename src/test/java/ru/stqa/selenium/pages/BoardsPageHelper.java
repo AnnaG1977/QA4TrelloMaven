@@ -18,13 +18,18 @@ public class BoardsPageHelper extends PageBase {
 
     @Override
     public void waitUntilPageIsLoaded() {
+        log.info("Start method waitUntilPageIsLoaded class BoardsPageHelper");
+        log.info("Wait until icon Boards is clickable");
         waitUntilElementIsClickable(iconBoards, 50 );
     }
     public boolean verifyIfBoardsIconIsDisplayed(){
+        log.info("Start method verifyIfBoardsIconIsDisplayed class BoardsPageHelper");
+        log.info("Verify that Boards icon is displayed on the screen");
         return iconBoards.isDisplayed();
     }
     public boolean verifyIfPersonalBoardsHeaderIsDisplayed(){
-
+        log.info("Start method verifyIfPersonalBoardsHeaderIsDisplayed class BoardsPageHelper");
+        log.info("Verify that text of the element personal boards is 'Personal Boards'");
         return boardsPageHeaderName.getText().equals("Personal Boards");
 
     }
