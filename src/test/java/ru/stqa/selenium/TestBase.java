@@ -1,13 +1,11 @@
 package ru.stqa.selenium;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.*;
 
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.PageFactory;
@@ -41,11 +39,27 @@ public class TestBase {
   public static final String PASSWORD = "repmrf04042003";
   public static LogLog4j log = new LogLog4j();
 
-  public static class Mylistener extends AbstractWebDriverEventListener{
+  public static class Mylistener extends AbstractWebDriverEventListener {
     @Override
     public void beforeFindBy(By by, WebElement element, WebDriver driver) {
       //super.beforeFindBy(by, element, driver);
       System.out.println("find element " + by);
+    }
+
+    @Override
+    public void onException(Throwable throwable, WebDriver driver) {
+      //super.onException(throwable, driver);
+      log.error("Error - " + throwable);
+      File tmp = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+      File screen = new File("screen - " + System
+              .currentTimeMillis() + ".png");
+      try {
+        Files.copy(tmp, screen);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      log.info("See screen in file " + screen);
+
     }
 
     @Override
@@ -54,8 +68,8 @@ public class TestBase {
       System.out.println("Element " + by + "was found ");
 
     }
-  }
 
+  }
   @BeforeSuite
   public void initTestSuite() throws IOException {
     SuiteConfiguration config = new SuiteConfiguration();
@@ -73,7 +87,7 @@ public class TestBase {
 
     //driver = WebDriverPool.DEFAULT.getDriver(gridHubUrl, capabilities);
     driver = new EventFiringWebDriver(WebDriverPool.DEFAULT.getDriver(gridHubUrl, capabilities));
-
+    driver = new EventFiringWebDriver(new ChromeDriver(options));
    // driver = new ChromeDriver(options);
     driver.register(new Mylistener());
 
